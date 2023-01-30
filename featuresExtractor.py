@@ -38,7 +38,7 @@ if __name__ == '__main__':
     assert ASSIGNMENTS_DIRECTORY.exists(), 'Cannot find assignments directory.'
     assignments_list = os.listdir(ASSIGNMENTS_DIRECTORY)
     oracle_map, oracle_map_size = read_map_for_oracle(MAP_PATH)
-    with open(FEATURES_FILENAME, 'w', encoding='UTF8') as features_file:
+    with open(FEATURES_FILE_PATH, 'w', encoding='UTF8') as features_file:
         writer = csv.writer(features_file)
         for pickled_assignment in assignments_list:
             assignment = joblib.load(ASSIGNMENTS_DIRECTORY / str(pickled_assignment))

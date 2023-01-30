@@ -7,8 +7,8 @@ from config import *
 import numpy as np
 
 if __name__ == '__main__':
-    assert FEATURES_FILENAME.exists(), 'Cannot find features file.'
-    csv_data = np.genfromtxt(FEATURES_FILENAME, delimiter=',')
+    assert FEATURES_FILE_PATH.exists(), 'Cannot find features file.'
+    csv_data = np.genfromtxt(FEATURES_FILE_PATH, delimiter=',')
     X, Y = csv_data[:, :-1], csv_data[:, -1]
 
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y)
@@ -26,5 +26,5 @@ if __name__ == '__main__':
     proceed = input('Do you want to train the model on all data and save it? y/n: ').upper() == 'Y'
     if proceed:
         model.fit(X, Y)
-        model.save_model(MODEL_FILE_NAME)
+        model.save_model(MODEL_FILE_PATH)
         print('Model saved.')
