@@ -27,6 +27,7 @@ setup(
             language="c++",
             extra_compile_args = [
                 "-Wno-everything",
+                "-w",
                 "-Ofast",
                 "-march=native",
                 "-funroll-loops",
