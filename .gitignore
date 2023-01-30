@@ -1,3 +1,5 @@
-/assignments
+assignments
+oracle/build
+oracle/oracle.cpython-310-x86_64-linux-gnu.so
 features.csv
 model.json
