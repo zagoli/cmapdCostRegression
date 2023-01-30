@@ -1,6 +1,6 @@
 # Jacopo Zagoli, 26/01/2023
 from numpy.random import default_rng
-from pathlib import Path
+from config import *
 import numpy as np
 import random
 import copy
@@ -64,17 +64,11 @@ def generate_assignments(n_agents, n_tasks, point_generator):
 
 
 if __name__ == '__main__':
-    AGENTS = 10
-    TASKS = 20
-    NUMBER_OF_ASSIGNMENTS = 10
-    MAP_PATH = Path('env/grid.map')
-    SAVE_PATH = Path('assignments')
-
-    SAVE_PATH.mkdir(exist_ok=True)
+    ASSIGNMENTS_DIRECTORY.mkdir(exist_ok=True)
     map_points = MapPointsGenerator(MAP_PATH)
 
     for ass_number in range(NUMBER_OF_ASSIGNMENTS):
         assignments = generate_assignments(AGENTS, TASKS, map_points)
-        filename = SAVE_PATH / ('assignment_' + str(ass_number) + '.pkl')
+        filename = ASSIGNMENTS_DIRECTORY / ('assignment_' + str(ass_number) + '.pkl')
         joblib.dump(assignments, filename)
         map_points.reset()

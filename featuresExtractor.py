@@ -1,5 +1,6 @@
 # Jacopo Zagoli, 27/01/2023
 from pathlib import Path
+from config import *
 import os
 import csv
 import joblib
@@ -33,10 +34,6 @@ def call_oracle(ass, grid, grid_size):
 
 
 if __name__ == '__main__':
-    ASSIGNMENTS_DIRECTORY = Path('assignments')
-    FEATURES_FILENAME = Path('features.csv')
-    MAP_PATH = Path('env/grid.map')
-
     assert MAP_PATH.exists(), 'Cannot find the map file.'
     assert ASSIGNMENTS_DIRECTORY.exists(), 'Cannot find assignments directory.'
     assignments_list = os.listdir(ASSIGNMENTS_DIRECTORY)
