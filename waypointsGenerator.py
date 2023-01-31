@@ -8,12 +8,12 @@ import joblib
 
 class MapPointsGenerator:
     def __init__(self, map_path):
-        self.original_points = available_map_points(map_path)
-        self.points = None
+        self.__original_points = available_map_points(map_path)
+        self.__points = None
         self.reset()
     def get_point(self):
-        point = random.choice(self.points)
-        self.points.remove(point)
+        point = random.choice(self.__points)
+        self.__points.remove(point)
         return point
     def get_points(self, n_points):
         point_list = []
@@ -21,7 +21,7 @@ class MapPointsGenerator:
             point_list.append(self.get_point())
         return point_list
     def reset(self):
-        self.points = copy.deepcopy(self.original_points)
+        self.__points = copy.deepcopy(self.__original_points)
 
 
 def available_map_points(map_path):
