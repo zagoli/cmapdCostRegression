@@ -1,6 +1,6 @@
 .idea
 /assignments
 /oracle/build/
-oracle/oracle.cpython-310-x86_64-linux-gnu.so
+oracle/oracle.cpython-*.so
 features.csv
 model.json
