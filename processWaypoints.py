@@ -5,15 +5,12 @@ import csv
 import joblib
 import numpy as np
 from oracle.oracle import oracle  # PyCharm doesn't find it but it's there
-from utils import ravel
+from utils import ravel, read_map
 from features_extractor import FeaturesExtractor
 
 
-def read_map_for_oracle(map_path):
-    with open(map_path) as f:
-        grid_size = tuple(map(int, f.readline().strip().split(',')))
-        grid = np.genfromtxt(map_path, delimiter=1, skip_header=1, dtype='S').ravel() == b'@'
-    return grid, grid_size
+def format_map_for_oracle(grid):
+    return grid.ravel() == b'@'
 
 
 def format_waypoints_for_oracle(waypoints, n_cols):
@@ -34,7 +31,8 @@ if __name__ == '__main__':
     assert MAP_PATH.exists(), 'Cannot find the map file.'
     assert ASSIGNMENTS_DIRECTORY.exists(), 'Cannot find assignments directory.'
     assignment_names = os.listdir(ASSIGNMENTS_DIRECTORY)
-    oracle_map, oracle_map_size = read_map_for_oracle(MAP_PATH)
+    oracle_map, oracle_map_size = read_map(MAP_PATH)
+    oracle_map = format_map_for_oracle(oracle_map)
     with open(FEATURES_FILE_PATH, 'w', encoding='UTF8') as features_file:
         writer = csv.writer(features_file)
         for assignment_name in assignment_names:

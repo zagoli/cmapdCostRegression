@@ -1,6 +1,7 @@
 # Jacopo Zagoli, 26/01/2023
 from numpy.random import default_rng
 from config import *
+from utils import read_map
 import numpy as np
 import random
 import copy
@@ -8,7 +9,8 @@ import joblib
 
 class MapPointsGenerator:
     def __init__(self, map_path):
-        self.__original_points = available_map_points(map_path)
+        self.__map_path = map_path
+        self.__original_points = self.__available_map_points()
         self.__points = None
         self.reset()
     def get_point(self):
@@ -22,18 +24,14 @@ class MapPointsGenerator:
         return point_list
     def reset(self):
         self.__points = copy.deepcopy(self.__original_points)
-
-
-def available_map_points(map_path):
-    available_points = []
-    with open(map_path) as f:
-        lines = f.readlines()
-    del lines[0]
-    for row, line in enumerate(lines):
-        for col, char in enumerate(line):
-            if char == 'e':
-                available_points.append([row, col])
-    return available_points
+    def __available_map_points(self):
+        available_points = []
+        grid, grid_size = read_map(self.__map_path)
+        for row in range(grid_size[0]):
+            for col in range(grid_size[1]):
+                if grid[row, col] == b'e':
+                    available_points.append([row, col])
+        return available_points
 
 
 def tasks_per_agent(n_agents, n_tasks):
