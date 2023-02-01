@@ -16,12 +16,6 @@ def read_map_for_oracle(map_path):
     return grid, grid_size
 
 
-def features_composer(features_extractor):
-    features = []
-    features += features_extractor.get_agents_start_goal()
-    return features
-
-
 def format_waypoints_for_oracle(waypoints, grid_size):
     sep = np.array(list(map(len, waypoints)), dtype=np.int32)
     waypoints = np.array([ravel(p, grid_size) for a in waypoints for p in a], dtype=np.int32)
@@ -46,7 +40,7 @@ if __name__ == '__main__':
         for assignment_name in assignment_names:
             assignment = joblib.load(ASSIGNMENTS_DIRECTORY / str(assignment_name))
             extractor = FeaturesExtractor(assignment, oracle_map, oracle_map_size)
-            extracted_features = features_composer(extractor)
+            extracted_features = extractor.get_features()
             solution = call_oracle(assignment, oracle_map, oracle_map_size)
             extracted_features.append(solution)
             writer.writerow(extracted_features)

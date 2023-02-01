@@ -3,9 +3,10 @@
 from distutils.core import setup
 from distutils.extension import Extension
 from Cython.Distutils import build_ext
-
+import os
 import numpy
 
+os.environ["CC"] = "c++"
 setup(
     cmdclass = {'build_ext': build_ext},
     ext_modules = [
