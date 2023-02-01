@@ -16,16 +16,16 @@ def read_map_for_oracle(map_path):
     return grid, grid_size
 
 
-def format_waypoints_for_oracle(waypoints, grid_size):
+def format_waypoints_for_oracle(waypoints, n_cols):
     sep = np.array(list(map(len, waypoints)), dtype=np.int32)
-    waypoints = np.array([ravel(p, grid_size) for a in waypoints for p in a], dtype=np.int32)
+    waypoints = np.array([ravel(p, n_cols) for a in waypoints for p in a], dtype=np.int32)
     return sep, waypoints
 
 
 def call_oracle(waypoints, grid, grid_size):
     num_agents = len(waypoints)
-    sep, waypoints = format_waypoints_for_oracle(waypoints, grid_size)
     row, col = grid_size
+    sep, waypoints = format_waypoints_for_oracle(waypoints, col)
     cost = oracle(grid, waypoints, sep, num_agents, len(waypoints), row, col)
     return int(np.rint(cost))
 
