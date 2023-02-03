@@ -1,4 +1,5 @@
 # Jacopo Zagoli, 27/01/2023
+import map_solver
 from config import *
 import os
 import csv
@@ -7,6 +8,7 @@ import numpy as np
 from oracle.oracle import oracle  # PyCharm doesn't find it but it's there
 from utils import ravel, read_map
 from features_extractor import FeaturesExtractor
+from map_solver import MapSolver
 
 
 def format_map_for_oracle(grid):
@@ -32,12 +34,13 @@ if __name__ == '__main__':
     assert ASSIGNMENTS_DIRECTORY.exists(), 'Cannot find assignments directory.'
     assignment_names = os.listdir(ASSIGNMENTS_DIRECTORY)
     oracle_map, oracle_map_size = read_map(MAP_PATH)
+    grid_solver = MapSolver(oracle_map)
     oracle_map = format_map_for_oracle(oracle_map)
     with open(FEATURES_FILE_PATH, 'w', encoding='UTF8') as features_file:
         writer = csv.writer(features_file)
         for assignment_name in assignment_names:
             assignment = joblib.load(ASSIGNMENTS_DIRECTORY / str(assignment_name))
-            extractor = FeaturesExtractor(assignment, oracle_map, oracle_map_size)
+            extractor = FeaturesExtractor(assignment, oracle_map, oracle_map_size, grid_solver)
             extracted_features = extractor.get_features()
             solution = call_oracle(assignment, oracle_map, oracle_map_size)
             extracted_features.append(solution)

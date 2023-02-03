@@ -1,13 +1,17 @@
 # Jacopo Zagoli, 31/01/2023
 from utils import ravel
+from map_solver import MapSolver
 
 
 class FeaturesExtractor:
 
-    def __init__(self, assignment, grid, grid_size):
+    def __init__(self, assignment: list, grid, grid_size: tuple, map_solver: MapSolver):
         self.__assignment = assignment
         self.__grid = grid
         self.__grid_size = grid_size
+        self.__map_solver = map_solver
+        self.__paths = self.__compute_paths()
+        self.__conflicts = self.__compute_conflicts()
 
     def __get_agents_start_goal(self):
         n_cols = self.__grid_size[1]
@@ -20,3 +24,13 @@ class FeaturesExtractor:
         features = []
         features += self.__get_agents_start_goal()
         return features
+
+    def __compute_paths(self):
+        paths = []
+        for waypoints in self.__assignment:
+            path = self.__map_solver.get_waypoints_path(waypoints)
+            paths.append(path)
+        return paths
+
+    def __compute_conflicts(self):
+        raise NotImplementedError()
