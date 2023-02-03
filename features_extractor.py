@@ -1,15 +1,15 @@
 # Jacopo Zagoli, 31/01/2023
 from utils import ravel
-from map_solver import MapSolver
+from grid_solver import GridSolver
 
 
 class FeaturesExtractor:
 
-    def __init__(self, assignment: list, grid, grid_size: tuple, map_solver: MapSolver):
+    def __init__(self, assignment: list, grid, grid_size: tuple, grid_solver: GridSolver):
         self.__assignment = assignment
         self.__grid = grid
         self.__grid_size = grid_size
-        self.__map_solver = map_solver
+        self.__grid_solver = grid_solver
         self.__paths = self.__compute_paths()
         self.__conflicts = self.__compute_conflicts()
 
@@ -28,7 +28,7 @@ class FeaturesExtractor:
     def __compute_paths(self):
         paths = []
         for waypoints in self.__assignment:
-            path = self.__map_solver.get_waypoints_path(waypoints)
+            path = self.__grid_solver.get_waypoints_path(waypoints)
             paths.append(path)
         return paths
 

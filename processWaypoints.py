@@ -1,17 +1,17 @@
 # Jacopo Zagoli, 27/01/2023
-import map_solver
+import grid_solver
 from config import *
 import os
 import csv
 import joblib
 import numpy as np
 from oracle.oracle import oracle  # PyCharm doesn't find it but it's there
-from utils import ravel, read_map
+from utils import ravel, read_grid
 from features_extractor import FeaturesExtractor
-from map_solver import MapSolver
+from grid_solver import GridSolver
 
 
-def format_map_for_oracle(grid):
+def format_grid_for_oracle(grid):
     return grid.ravel() == b'@'
 
 
@@ -30,18 +30,18 @@ def call_oracle(waypoints, grid, grid_size):
 
 
 if __name__ == '__main__':
-    assert MAP_PATH.exists(), 'Cannot find the map file.'
+    assert GRID_PATH.exists(), 'Cannot find the grid file.'
     assert ASSIGNMENTS_DIRECTORY.exists(), 'Cannot find assignments directory.'
     assignment_names = os.listdir(ASSIGNMENTS_DIRECTORY)
-    oracle_map, oracle_map_size = read_map(MAP_PATH)
-    grid_solver = MapSolver(oracle_map)
-    oracle_map = format_map_for_oracle(oracle_map)
+    grid, grid_size = read_grid(GRID_PATH)
+    grid_solver = GridSolver(grid)
+    oracle_grid = format_grid_for_oracle(grid)
     with open(FEATURES_FILE_PATH, 'w', encoding='UTF8') as features_file:
         writer = csv.writer(features_file)
         for assignment_name in assignment_names:
             assignment = joblib.load(ASSIGNMENTS_DIRECTORY / str(assignment_name))
-            extractor = FeaturesExtractor(assignment, oracle_map, oracle_map_size, grid_solver)
+            extractor = FeaturesExtractor(assignment, oracle_grid, grid_size, grid_solver)
             extracted_features = extractor.get_features()
-            solution = call_oracle(assignment, oracle_map, oracle_map_size)
+            solution = call_oracle(assignment, oracle_grid, grid_size)
             extracted_features.append(solution)
             writer.writerow(extracted_features)

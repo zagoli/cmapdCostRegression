@@ -1,16 +1,16 @@
 # Jacopo Zagoli, 26/01/2023
 from numpy.random import default_rng
 from config import *
-from utils import read_map
+from utils import read_grid
 import numpy as np
 import random
 import copy
 import joblib
 
-class MapPointsGenerator:
-    def __init__(self, map_path):
-        self.__map_path = map_path
-        self.__original_points = self.__available_map_points()
+class GridPointsGenerator:
+    def __init__(self, grid_path):
+        self.__grid_path = grid_path
+        self.__original_points = self.__available_grid_points()
         self.__points = None
         self.reset()
     def get_point(self):
@@ -24,9 +24,9 @@ class MapPointsGenerator:
         return point_list
     def reset(self):
         self.__points = copy.deepcopy(self.__original_points)
-    def __available_map_points(self):
+    def __available_grid_points(self):
         available_points = []
-        grid, grid_size = read_map(self.__map_path)
+        grid, grid_size = read_grid(self.__grid_path)
         for row in range(grid_size[0]):
             for col in range(grid_size[1]):
                 if grid[row, col] == b'e':
@@ -63,10 +63,10 @@ def generate_assignments(n_agents, n_tasks, point_generator):
 
 if __name__ == '__main__':
     ASSIGNMENTS_DIRECTORY.mkdir(exist_ok=True)
-    map_points = MapPointsGenerator(MAP_PATH)
+    grid_points = GridPointsGenerator(GRID_PATH)
 
     for ass_number in range(NUMBER_OF_ASSIGNMENTS):
-        assignments = generate_assignments(AGENTS, TASKS, map_points)
+        assignments = generate_assignments(AGENTS, TASKS, grid_points)
         filename = ASSIGNMENTS_DIRECTORY / ('assignment_' + str(ass_number) + '.pkl')
         joblib.dump(assignments, filename)
-        map_points.reset()
+        grid_points.reset()

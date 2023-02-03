@@ -11,7 +11,7 @@ class BfsNode:
         self.path = path
 
 
-class MapSolver:
+class GridSolver:
     def __init__(self, grid):
         self.__grid = grid != b'@'
         self.__path_table = dict()
