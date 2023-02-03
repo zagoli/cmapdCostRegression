@@ -28,12 +28,10 @@ class FeaturesExtractor:
         return [ravel(p, n_cols) for p in locations]
 
     def __n_waypoints_per_agent(self) -> list:
-        result = [len(waypoints) for waypoints in self.__assignment]
-        return result
+        return [len(waypoints) for waypoints in self.__assignment]
 
     def __paths_length(self) -> list:
-        result = [len(path) for path in self.__paths]
-        return result
+        return [len(path) for path in self.__paths]
 
     def __compute_paths(self):
         paths = []
