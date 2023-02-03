@@ -82,3 +82,9 @@ class MapSolver:
         if self.__is_present(to_point_index, from_point_index):
             return self.__path_table[to_point_index][from_point_index][::-1]
         raise Exception(f'No path is present from {from_point} to {to_point}')
+
+    def get_waypoints_path(self, waypoints: list):
+        path = []
+        for i in range(len(waypoints) - 1):
+            path += self.get_path(waypoints[i], waypoints[i + 1])
+        return path
