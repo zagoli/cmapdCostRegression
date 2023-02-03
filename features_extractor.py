@@ -13,17 +13,22 @@ class FeaturesExtractor:
         self.__paths = self.__compute_paths()
         self.__conflicts = self.__compute_conflicts()
 
-    def __get_agents_start_goal(self):
+    def get_features(self):
+        features = []
+        features += self.__agents_start_goal()
+        features += self.__n_waypoints_per_agent()
+        return features
+
+    def __agents_start_goal(self)->list:
         n_cols = self.__grid_size[1]
         locations = []
         for waypoints in self.__assignment:
             locations += [waypoints[0], waypoints[-1]]
         return [ravel(p, n_cols) for p in locations]
 
-    def get_features(self):
-        features = []
-        features += self.__get_agents_start_goal()
-        return features
+    def __n_waypoints_per_agent(self)->list:
+        result = [len(waypoints) for waypoints in self.__assignment]
+        return result
 
     def __compute_paths(self):
         paths = []
