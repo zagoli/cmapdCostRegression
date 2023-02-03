@@ -1,7 +1,6 @@
 # Jacopo Zagoli, 03/02/2023
 from collections import deque
 import copy
-from utils import read_map
 
 
 class BfsNode:
@@ -83,9 +82,3 @@ class MapSolver:
         if self.__is_present(to_point_index, from_point_index):
             return self.__path_table[to_point_index][from_point_index][::-1]
         raise Exception(f'No path is present from {from_point} to {to_point}')
-
-
-if __name__ == '__main__':
-    outer_grid, _ = read_map('env/grid.map')
-    solver = MapSolver(outer_grid)
-    print(solver.get_path([2,34],[2,0]))
