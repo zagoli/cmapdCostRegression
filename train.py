@@ -11,7 +11,7 @@ if __name__ == '__main__':
     csv_data = np.genfromtxt(FEATURES_FILE_PATH, delimiter=',')
     X, Y = csv_data[:, :-1], csv_data[:, -1]
 
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, shuffle=False)
     model = XGBRegressor()
     dummy = DummyRegressor()
     model.fit(X_train, Y_train)
