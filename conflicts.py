@@ -46,7 +46,7 @@ class ConflictsFinder:
         return conflicts
 
     def __get_agent_pos(self, agent: int, timestep: int):
-        assert timestep > 0
+        assert timestep >= 0
         path = self.__paths[agent]
         if timestep < len(path):
             return path[timestep]
