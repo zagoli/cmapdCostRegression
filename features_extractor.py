@@ -31,6 +31,7 @@ class FeaturesExtractor:
         features += self.__n_waypoints_per_agent()
         features += self.__paths_length()
         features += self.__n_conflicts()
+        features += self.__n_conflicted_agents()
         return features
 
     def __agents_start_goal(self) -> list:
@@ -48,3 +49,10 @@ class FeaturesExtractor:
 
     def __n_conflicts(self) -> list:
         return [len(self.__conflicts)]
+
+    def __n_conflicted_agents(self) -> list:
+        conflicted_agents = set()
+        for c in self.__conflicts:
+            conflicted_agents.add(c.first_agent)
+            conflicted_agents.add(c.second_agent)
+        return [len(conflicted_agents)]
