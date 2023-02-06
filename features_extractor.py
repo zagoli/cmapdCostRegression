@@ -1,6 +1,7 @@
 # Jacopo Zagoli, 31/01/2023
 from utils import ravel
 from grid_solver import GridSolver
+from conflicts import ConflictsFinder
 
 
 class FeaturesExtractor:
@@ -12,6 +13,17 @@ class FeaturesExtractor:
         self.__grid_solver = grid_solver
         self.__paths = self.__compute_paths()
         self.__conflicts = self.__compute_conflicts()
+
+    def __compute_paths(self):
+        paths = []
+        for waypoints in self.__assignment:
+            path = self.__grid_solver.get_waypoints_path(waypoints)
+            paths.append(path)
+        return paths
+
+    def __compute_conflicts(self):
+        finder = ConflictsFinder(self.__paths)
+        return finder.get_conflicts()
 
     def get_features(self):
         features = []
@@ -32,13 +44,3 @@ class FeaturesExtractor:
 
     def __paths_length(self) -> list:
         return [len(path) for path in self.__paths]
-
-    def __compute_paths(self):
-        paths = []
-        for waypoints in self.__assignment:
-            path = self.__grid_solver.get_waypoints_path(waypoints)
-            paths.append(path)
-        return paths
-
-    def __compute_conflicts(self):
-        raise NotImplementedError()
