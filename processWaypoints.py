@@ -1,5 +1,5 @@
 # Jacopo Zagoli, 27/01/2023
-import grid_solver
+from tqdm import tqdm
 from config import *
 import os
 import csv
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     oracle_grid = format_grid_for_oracle(grid)
     with open(FEATURES_FILE_PATH, 'w', encoding='UTF8') as features_file:
         writer = csv.writer(features_file)
-        for assignment_name in assignment_names:
+        for assignment_name in tqdm(assignment_names):
             assignment = joblib.load(ASSIGNMENTS_DIRECTORY / str(assignment_name))
             extractor = FeaturesExtractor(assignment, oracle_grid, grid_size, grid_solver)
             extracted_features = extractor.get_features()

@@ -1,4 +1,5 @@
 # Jacopo Zagoli, 26/01/2023
+from tqdm import tqdm
 from numpy.random import default_rng
 from config import *
 from utils import read_grid
@@ -65,7 +66,7 @@ if __name__ == '__main__':
     ASSIGNMENTS_DIRECTORY.mkdir(exist_ok=True)
     grid_points = GridPointsGenerator(GRID_PATH)
 
-    for ass_number in range(NUMBER_OF_ASSIGNMENTS):
+    for ass_number in tqdm(range(NUMBER_OF_ASSIGNMENTS)):
         assignments = generate_assignments(AGENTS, TASKS, grid_points)
         filename = ASSIGNMENTS_DIRECTORY / ('assignment_' + str(ass_number) + '.pkl')
         joblib.dump(assignments, filename)
