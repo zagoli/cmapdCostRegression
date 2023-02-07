@@ -84,6 +84,8 @@ class GridSolver:
         raise Exception(f'No path is present from {from_point} to {to_point}')
 
     def get_waypoints_path(self, waypoints: list):
+        if len(waypoints) == 1:
+            return waypoints
         path = []
         for i in range(len(waypoints) - 1):
             path += self.get_path(waypoints[i], waypoints[i + 1])

@@ -20,9 +20,11 @@ if __name__ == '__main__':
     Y_hat_dummy = dummy.predict(X_test)
     mse = mean_squared_error(Y_test, Y_hat)
     mse_dummy = mean_squared_error(Y_test, Y_hat_dummy)
+    score = model.score(X_test, Y_test)
 
     print(f'{"Dummy MSE:":10s} {mse_dummy:10.5f}')
     print(f'{"Real MSE:":10s} {mse:10.5f}')
+    print(f'{"Score:":10s} {score:10.5f}')
     proceed = input('Do you want to train the model on all data and save it? y/n: ').upper() == 'Y'
     if proceed:
         model.fit(X, Y)
