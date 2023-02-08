@@ -1,5 +1,4 @@
 .idea
-/assignments
 /oracle/build/
 oracle/oracle.cpython-*.so
 features.csv

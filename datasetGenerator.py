@@ -1,9 +1,8 @@
 # Jacopo Zagoli, 27/01/2023
 from tqdm import tqdm
 from config import *
-import os
+from generate_assignments import generate_assignments
 import csv
-import joblib
 import numpy as np
 from oracle.oracle import oracle  # PyCharm doesn't find it but it's there
 from utils import ravel, read_grid
@@ -31,15 +30,14 @@ def call_oracle(waypoints, grid, grid_size):
 
 if __name__ == '__main__':
     assert GRID_PATH.exists(), 'Cannot find the grid file.'
-    assert ASSIGNMENTS_DIRECTORY.exists(), 'Cannot find assignments directory.'
-    assignment_names = os.listdir(ASSIGNMENTS_DIRECTORY)
     grid, grid_size = read_grid(GRID_PATH)
+    print("Computing all paths...")
     grid_solver = GridSolver(grid)
     oracle_grid = format_grid_for_oracle(grid)
     with open(FEATURES_FILE_PATH, 'w', encoding='UTF8') as features_file:
         writer = csv.writer(features_file)
-        for assignment_name in tqdm(assignment_names):
-            assignment = joblib.load(ASSIGNMENTS_DIRECTORY / str(assignment_name))
+        print("Writing dataset...")
+        for assignment in tqdm(generate_assignments(NUMBER_OF_ASSIGNMENTS, GRID_PATH), total=NUMBER_OF_ASSIGNMENTS):
             extractor = FeaturesExtractor(assignment, oracle_grid, grid_size, grid_solver)
             extracted_features = extractor.get_features()
             solution = call_oracle(assignment, oracle_grid, grid_size)

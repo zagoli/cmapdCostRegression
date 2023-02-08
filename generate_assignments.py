@@ -50,7 +50,7 @@ def tasks_per_agent(n_agents, n_tasks):
     return tasks_number_list
 
 
-def generate_assignments(n_agents, n_tasks, point_generator):
+def generate_assignment(n_agents, n_tasks, point_generator):
     tasks_number = tasks_per_agent(n_agents, n_tasks)
     assignment_list = []
     for agent in range(n_agents):
@@ -62,12 +62,9 @@ def generate_assignments(n_agents, n_tasks, point_generator):
     return assignment_list
 
 
-if __name__ == '__main__':
-    ASSIGNMENTS_DIRECTORY.mkdir(exist_ok=True)
-    grid_points = GridPointsGenerator(GRID_PATH)
-
-    for ass_number in tqdm(range(NUMBER_OF_ASSIGNMENTS)):
-        assignments = generate_assignments(AGENTS, TASKS, grid_points)
-        filename = ASSIGNMENTS_DIRECTORY / ('assignment_' + str(ass_number) + '.pkl')
-        joblib.dump(assignments, filename)
+def generate_assignments(assignments_number, grid_path):
+    grid_points = GridPointsGenerator(grid_path)
+    for ass_number in range(assignments_number):
+        assignment = generate_assignment(AGENTS, TASKS, grid_points)
+        yield assignment
         grid_points.reset()
