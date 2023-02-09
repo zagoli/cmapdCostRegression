@@ -2,4 +2,4 @@
 /oracle/build/
 oracle/oracle.cpython-*.so
 features.csv
-model.json
+model.ubj
