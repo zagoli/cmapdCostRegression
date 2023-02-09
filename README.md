@@ -1,6 +1,7 @@
 # CMAPD solution cost regression
 This code tries to predict the cost of a conflict free solution
 for a CMAPD instance (with already assigned tasks) using regression.
+The best $R^2$ score achieved so far is 0.97!
 
 ### Usage
 How to train the model:
